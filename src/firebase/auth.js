@@ -29,7 +29,7 @@ export const stateFirebase = async () => {
   try {
     await onAuthStateChanged(auth, (user) => {
       if (user) {
-        result = auth.currentUser.email;
+        result = auth.currentUser.uid;
       } else {
         console.log('usuario deslogeado');
       }
@@ -70,14 +70,16 @@ export const readUserData = async () => {
   }
 };
 
-export const searchByEmail = async (email) => {
-  const usersRef = collection(db, "users");
-  const querResult = query(usersRef, where("email", "==", email));
-  let result = await onSnapshot(
-    querResult,
-    (querySnapshot) => {
-      result = JSON.stringify(querySnapshot.docs.map((e)=>e.data().name));
-      return result;
-    });
-  console.log(`El resultado de buscar la data de este correo: ${email} es: ${result}`);
+export const searchNameById = async (id) => {
+  const usersRef = collection(db, "user");
+  const q = query(usersRef, where("id", "==", id));
+  const querySnapshot = await getDocs(q);
+
+  let userName;
+
+  await querySnapshot.forEach((doc) => {
+    userName = doc.data().name;
+  });
+
+  return userName;
 };
