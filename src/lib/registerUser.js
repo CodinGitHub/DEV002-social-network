@@ -1,4 +1,6 @@
-import { registerFirebase, writeUserData } from '../firebase/auth.js';
+import { registerFirebase } from '../firebase/auth.js';
+import { auth, updateProfile } from '../firebase/init.js';
+// eslint-disable-next-line import/no-cycle
 import { onNavigate } from '../main.js';
 
 export const registerUser = () => {
@@ -12,8 +14,6 @@ export const registerUser = () => {
     const password = event.target[2].value;
     const passwordConfirmed = event.target[3].value;
 
-    
-
     if (password === passwordConfirmed) {
       const result = await registerFirebase(emailUser, password);
       if (result === 'Firebase: Error (auth/email-already-in-use).') {
@@ -25,17 +25,13 @@ export const registerUser = () => {
       } else if (result === 'Firebase: Error (auth/invalid-email).') {
         errorDiv.innerText = 'Por favor ingresa un correo';
       } else {
+        // Actualizamos nombre
+        updateProfile(auth.currentUser, {
+          displayName: nameUser,
+          photoURL: '../img/perfil.png',
+        });
 
-        const newUser = {
-          id: result.user.uid,
-          name: nameUser,
-          email: emailUser,
-          pass: password,
-          passConfirmed: passwordConfirmed,
-        };
-
-        writeUserData(newUser.id, newUser);
-        alert(`${newUser.name}, tu cuenta ha sido creada correctamente`);
+        alert(`${nameUser}, tu cuenta ha sido creada correctamente`);
         onNavigate('/login');
       }
     } else {
