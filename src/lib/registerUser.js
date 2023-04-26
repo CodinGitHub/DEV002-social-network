@@ -1,11 +1,16 @@
-import { registerFirebase } from '../firebase/auth.js';
-import { auth, updateProfile } from '../firebase/init.js';
+// import { registerFirebase } from '../firebase/auth.js';
+import { auth, updateProfile, registerFirebase } from '../firebase/init.js';
 // eslint-disable-next-line import/no-cycle
 import { onNavigate } from '../main.js';
 
 export const registerUser = () => {
   const form = document.querySelector('#form');
   const errorDiv = document.querySelector('#error');
+  const googleBtn = document.querySelector('#googleBtn');
+
+  googleBtn.addEventListener('click', async () => {
+    // await launchGoogleLogin();
+  });
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();

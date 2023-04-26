@@ -1,5 +1,5 @@
 /* eslint-disable import/no-cycle */
-import { loginFirebase, readUserData, stateFirebase } from '../firebase/auth.js';
+import { loginFirebase } from '../firebase/auth.js';
 import { onNavigate } from '../main.js';
 
 export const loginUser = () => {

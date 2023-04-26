@@ -3,6 +3,7 @@ import { auth, onAuthStateChanged } from '../firebase/init.js';
 
 export const profileUser = async () => {
   const newPostLabel = document.querySelector('#newPostLabel');
+  // const newPost = document.querySelector('#newPost');
 
   // Observador
   onAuthStateChanged(auth, (user) => {
